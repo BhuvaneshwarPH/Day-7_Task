@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Press F12 to inspect</h1>
+    <script>
+     var xhr = new XMLHttpRequest();
+
+
+var apiUrl = "https://restcountries.com/v3.1/all";
+
+xhr.open("GET", apiUrl, true);
+
+xhr.onload = function () {
+  if (xhr.status === 200) {
+     var countries = JSON.parse(xhr.responseText);
+
+    // Problem 1: Get all the countries from Asia continent/region using Filter function
+    var asiaCountries = countries.filter(function (country) {
+      return country.region === "Asia";
+    });
+
+    console.log("Countries in Asia:");
+    console.log(asiaCountries);
+
+    // Problem 2: Get all the countries with a population of less than 2 lakhs using Filter function
+    var lowPopulationCountries = countries.filter(function (country) {
+      return country.population < 200000;
+    });
+
+    console.log("Countries with population less than 2 lakhs:");
+    console.log(lowPopulationCountries);
+
+    // Problem 3: Print the following details name, capital, flag using forEach function
+    console.log("Details of countries:");
+    countries.forEach(function (country) {
+      console.log("Name: " + country.name.common);
+      console.log("Capital: " + country.capital);
+      console.log("Flag: " + country.flags.png);
+    });
+
+    // Problem 4: Print the total population of countries using reduce function
+    var totalPopulation = countries.reduce(function (acc, country) {return acc + country.population;}, 0);
+
+    console.log("Total Population: " + totalPopulation);
+
+    // Problem 5: Print the country which uses US Dollars as currency
+    var usDollarCountries = countries.filter(function (country) {
+      return country.currencies.USD !== undefined;
+    });
+
+    console.log("Countries using US Dollars:");
+    console.log(usDollarCountries);
+  } else {
+    // Handle errors here
+    console.error("Error fetching data: " + xhr.status);
+  }
+};
+
+
+xhr.send();
+
+    </script>
+</body>
+</html>
